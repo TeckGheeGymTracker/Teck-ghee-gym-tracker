@@ -1,10 +1,6 @@
 name: Collect Teck Ghee Gym Crowd Data
 
 on:
-  schedule:
-    # Runs every 30 minutes
-    - cron: "*/30 * * * *"
-
   workflow_dispatch:
 
 jobs:
@@ -12,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Python
@@ -21,14 +17,5 @@ jobs:
           python-version: "3.x"
 
       - name: Run collector
-        run: |
-          python collector/collect.py
-
-      - name: Save updated data
-        run: |
-          git config --global user.name "TeckGheeGymTracker"
-          git config --global user.email "actions@github.com"
-          git add data/crowd_data.json
-          git commit -m "Update crowd data" || exit 0
-          git push
+        run: python collector/collect.py
 
